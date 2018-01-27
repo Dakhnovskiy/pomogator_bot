@@ -1,4 +1,7 @@
 import logging
+import requests
+import posixpath
+import datetime
 
 
 logging.basicConfig(
@@ -13,23 +16,46 @@ def error(bot, update, error):
 
 
 def weather_forecast(bot, update):
-    query = ' '.join(update.message.text.split(' ')[1:])
+    city = ' '.join(update.message.text.split(' ')[1:])
+    print(update.message.text)
+    message = get_weather_forecast(city)
+    update.message.reply_text(str(message).strip())
 
-    import requests, bs4
 
-    s = requests.get('https://sinoptik.com.ru/погода-%s' % query.lower())
-    b = bs4.BeautifulSoup(s.text, "html.parser")
-    p3 = b.select('.temperature .p3')
-    pogoda1 = p3[0].getText()
-    p4 = b.select('.temperature .p4')
-    pogoda2 = p4[0].getText()
-    p5 = b.select('.temperature .p5')
-    pogoda3 = p5[0].getText()
-    p6 = b.select('.temperature .p6')
-    pogoda4 = p6[0].getText()
-    p = b.select('.rSide .description')
-    pogoda = p[0].getText()
-    result = 'Утром :{0} {1}\nДнём :{2} {3}\n{4}'.format(pogoda1, pogoda2, pogoda3, pogoda4, pogoda)
+def get_weather_forecast(city, count_days_for_forecast=1):
+    max_count_days_for_forecast = 5
+    count_days = min(max_count_days_for_forecast, count_days_for_forecast)
+    max_date = datetime.datetime.today() + datetime.timedelta(days=count_days)
 
-    update.message.reply_text(result.strip())
-    # bot.send_photo(chat_id=update.message.chat_id, photo=photo_url)
+    api_endpoint = 'http://api.openweathermap.org'
+    api_key = '24a669b0d50018deef958f24353a892c'
+    api_function_current_weather = 'data/2.5/forecast'
+
+    country = 'RU'
+    city_for_find = '%s,%s' % (city, country)
+
+    request_url = posixpath.join(api_endpoint, api_function_current_weather)
+    request_params = {'q': city_for_find, 'units': 'metric', 'lang': 'ru', 'APPID': api_key}
+
+    response = requests.get(request_url, params=request_params)
+    response_json = response.json()
+    weather_description_list =[]
+
+    for row in response_json['list']:
+        dt_row = datetime.datetime.fromtimestamp(row['dt'])
+        if dt_row > max_date:
+            continue
+
+        dt_txt = dt_row.strftime('%d.%m.%Y %H:%M')
+        temp = '{0:+3.0f}'.format(row['main']['temp'])
+        weather_description = row['weather'][0]['description']
+        wind_speed = row['wind']['speed']
+        weather_description_list.append(
+            '{date}:\nТемпература: {temp}°С\n{descr}\nCкорость ветра: {wind_speed} м/с'.format(
+                date=dt_txt,
+                temp=temp,
+                descr=weather_description,
+                wind_speed=wind_speed
+            )
+        )
+    return '\n\n'.join(weather_description_list)
