@@ -16,6 +16,3 @@ def parse_params_weather_forecast(message):
         count_days = int(count_days)
 
     return {'city': city, 'count_days': count_days}
-
-
-print(parse_params_weather_forecast('/погода гор ключ ии 15'))

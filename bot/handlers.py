@@ -2,6 +2,7 @@ import logging
 import requests
 import posixpath
 import datetime
+from parse_params_helpers import parse_params_weather_forecast
 
 
 logging.basicConfig(
@@ -16,9 +17,9 @@ def error(bot, update, error):
 
 
 def weather_forecast(bot, update):
-    city = ' '.join(update.message.text.split(' ')[1:])
-    print(update.message.text)
-    message = get_weather_forecast(city)
+    params = parse_params_weather_forecast(update.message.text)
+
+    message = get_weather_forecast(params['city'], params['count_days'])
     update.message.reply_text(str(message).strip())
 
 

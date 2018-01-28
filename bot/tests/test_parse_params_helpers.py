@@ -1,4 +1,3 @@
-import pytest
 from fixtures import params_weather_forecast
 from parse_params_helpers import parse_params_weather_forecast
 
