@@ -1,11 +1,11 @@
-import os
+from config import settings
 from telegram.ext import Updater, CommandHandler
 
 import handlers
 
 
 def get_configured_updater():
-    updater = Updater(os.environ.get('BOT_TOKEN'))
+    updater = Updater(settings.BOT_TOKEN)
 
     updater.dispatcher.add_handler(
         CommandHandler('погода', handlers.weather_forecast)
