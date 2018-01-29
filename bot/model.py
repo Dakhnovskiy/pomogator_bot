@@ -14,7 +14,7 @@ class Request(Base):
     id = Column(Integer, primary_key=True)
     chat_id = Column(Integer, nullable=False)
     command = Column(String(100), nullable=False)
-    date = Column(DateTime, nullable=False, default=datetime.datetime.today())
+    date = Column(DateTime, nullable=False, default=datetime.datetime.today)
 
     params = relationship('RequestParameter', back_populates='request')
 
