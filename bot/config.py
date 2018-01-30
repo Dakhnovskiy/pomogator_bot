@@ -14,7 +14,7 @@ class Config(object):
 
 class ProductionConfig(Config):
     API_ENDPOINT_WEATHER_FORECAST = 'https://weather-forecast-service.herokuapp.com'
-    DATABASE = os.environ['DATABASE_URL']
+    DATABASE = os.environ.get('DATABASE_URL')
 
 
 class DevelopmentConfig(Config):
