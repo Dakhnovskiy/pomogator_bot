@@ -1,7 +1,7 @@
 # pomogator_bot
 Personal assistant for telegramm
 
-@pomogator_personal_assistant_bot
+Найти бота можно так: @pomogator_personal_assistant_bot
 
 ## Возможности:
 * **/погода [населенный пункт] [количество дней]**
