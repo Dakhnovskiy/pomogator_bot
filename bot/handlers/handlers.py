@@ -5,6 +5,7 @@ from config import settings
 from parse_params_helpers import parse_params_weather_forecast
 from request_log_helpers import log_request
 from db_query_helpers import get_params_from_last_request
+from parse_response_helper import parse_wiki_response
 
 
 logging.basicConfig(
@@ -37,5 +38,26 @@ def weather_forecast(bot, update):
     if response.status_code == 200:
         message = response.json()['description']
 
-    update.message.reply_text(str(message).strip())
+    update.message.reply_text(message)
 
+
+def wiki_search(bot, update):
+    command = 'вики'
+    query = ' '.join(update.message.text.split(' ')[1:])
+    params = {'search': query}
+    log_request(update.message.chat_id, command, params)
+
+    params.update({
+        'action': 'opensearch',
+        'format': 'xml',
+        'profile': 'fuzzy',
+        'limit': 1
+    })
+
+    response = requests.get(settings.API_WIKI_URL, params=params)
+
+    message = settings.ERROR_MESSAGE
+    if response.status_code == 200:
+        message = parse_wiki_response(response.text)
+
+    update.message.reply_text(message)

@@ -5,6 +5,8 @@ class Config(object):
     DEBUG = False
     API_ENDPOINT_WEATHER_FORECAST = 'http://127.0.0.1:5000'
     API_FUNCTION_WEATHER_FORECAST = 'v1/forecast'
+    API_WIKI_URL = 'https://ru.wikipedia.org/w/api.php'
+
     BOT_TOKEN = os.environ.get('BOT_TOKEN')
     ERROR_MESSAGE = 'Не удалось выполнить запрос. Попробуйте позднее'
     DATABASE = 'sqlite:///{0}'.format(

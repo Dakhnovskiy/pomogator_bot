@@ -3,3 +3,4 @@ python-telegram-bot==9.0.0
 requests==2.18.4
 SQLAlchemy==1.2.2
 psycopg2==2.7.3.2
+beautifulsoup4==4.4.1
