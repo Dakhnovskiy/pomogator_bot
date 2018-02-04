@@ -1,5 +1,5 @@
-from model import Request
-from db_helpers import get_session
+from ..model import Request
+from .db_helpers import get_session
 
 
 def log_request(chat_id, command, params):

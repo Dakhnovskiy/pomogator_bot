@@ -1,5 +1,5 @@
-from db_helpers import get_session
-from model import Request
+from .db_helpers import get_session
+from ..model import Request
 
 
 def get_params_from_last_request(chat_id, command):

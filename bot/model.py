@@ -3,7 +3,6 @@ from sqlalchemy import Column, ForeignKey, Integer, String, DateTime, Text
 from sqlalchemy.orm import relationship
 from sqlalchemy.ext.declarative import declarative_base
 
-from db_helpers import get_engine
 
 Base = declarative_base()
 
@@ -34,7 +33,3 @@ class RequestParameter(Base):
     request_id = Column(Integer, ForeignKey('requests.id', ondelete='CASCADE'), nullable=False)
 
     request = relationship('Request', back_populates='params')
-
-
-if __name__ == '__main__':
-    Base.metadata.create_all(get_engine())

@@ -1,4 +1,4 @@
-import bot_helpers
+import bot.bot_helpers as bot_helpers
 
 
 if __name__ == '__main__':

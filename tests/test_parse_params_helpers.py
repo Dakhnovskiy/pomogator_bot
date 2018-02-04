@@ -1,5 +1,5 @@
 from fixtures import params_weather_forecast
-from parse_params_helpers import parse_params_weather_forecast
+from bot.handlers.parse_params_helpers import parse_params_weather_forecast
 
 
 def test_parse_params_weather_forecast(params_weather_forecast):

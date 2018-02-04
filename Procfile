@@ -1,2 +1,2 @@
-bot: python bot/bot.py
-init: python bot/model.py
+bot: python bot.py
+init: python model_init.py
