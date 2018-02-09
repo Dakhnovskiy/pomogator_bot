@@ -6,6 +6,8 @@ class Config(object):
     API_ENDPOINT_WEATHER_FORECAST = 'http://127.0.0.1:5000'
     API_FUNCTION_WEATHER_FORECAST = 'v1/forecast'
     API_WIKI_URL = 'https://ru.wikipedia.org/w/api.php'
+    API_NOTES_URL = 'http://127.0.0.1:8000'
+    API_NOTES_HANDLER = 'api/notes'
 
     BOT_TOKEN = os.environ.get('BOT_TOKEN')
     ERROR_MESSAGE = 'Не удалось выполнить запрос. Попробуйте позднее'
@@ -16,6 +18,8 @@ class Config(object):
 
 class ProductionConfig(Config):
     API_ENDPOINT_WEATHER_FORECAST = 'https://weather-forecast-service.herokuapp.com'
+    API_NOTES_URL = 'http://127.0.0.1:8000'
+
     DATABASE = os.environ.get('DATABASE_URL')
 
 
