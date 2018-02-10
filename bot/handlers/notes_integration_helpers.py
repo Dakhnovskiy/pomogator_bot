@@ -44,3 +44,17 @@ def delete_note(note_id):
     )
 
     return response.status_code == 204
+
+
+def get_note_text(note_id):
+    notes_url = get_notes_url(note_id)
+
+    response = requests.get(
+        url=notes_url,
+        auth=get_auth_tuple()
+    )
+
+    message = 'Не удалось получить заметку. Попробуйте позднее'
+    if response.status_code == 200:
+        message = response.json()['text']
+    return message

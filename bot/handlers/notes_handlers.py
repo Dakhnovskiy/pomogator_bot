@@ -1,5 +1,5 @@
 from ..db_helpers import log_request
-from .notes_integration_helpers import get_notes_by_chat_id, delete_note
+from .notes_integration_helpers import get_notes_by_chat_id, delete_note, get_note_text
 
 from telegram import InlineKeyboardButton, InlineKeyboardMarkup
 
@@ -65,7 +65,15 @@ def button_delete_note(bot, update):
 
 
 def button_show_note(bot, update):
-    pass
+    query = update.callback_query
+
+    note_text = get_note_text(query.data.split(',')[1])
+
+    bot.edit_message_text(
+        text=note_text,
+        chat_id=query.message.chat_id,
+        message_id=query.message.message_id
+    )
 
 
 def button_new_note(bot, update):
