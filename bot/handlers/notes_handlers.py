@@ -1,5 +1,5 @@
 from ..db_helpers import log_request
-from .notes_integration_helpers import get_notes
+from .notes_integration_helpers import get_notes_by_chat_id, delete_note
 
 from telegram import InlineKeyboardButton, InlineKeyboardMarkup
 
@@ -22,7 +22,15 @@ def notes(bot, update):
 def button_show_notes_list(bot, update):
     query = update.callback_query
 
-    notes_data = get_notes(query.message.chat_id)
+    notes_data = get_notes_by_chat_id(query.message.chat_id)
+    if not notes_data:
+        bot.edit_message_text(
+            text='Заметок не найдено',
+            chat_id=query.message.chat_id,
+            message_id=query.message.message_id
+        )
+        return
+
     keyboard = []
 
     for note in notes_data:
@@ -38,6 +46,26 @@ def button_show_notes_list(bot, update):
         message_id=query.message.message_id,
         reply_markup=reply_markup
     )
+
+
+def button_delete_note(bot, update):
+    messages = {
+        True: 'Заметка удалена',
+        False: 'Не удалось удалить заметку, попробуйте позднее'
+    }
+    query = update.callback_query
+
+    res = delete_note(query.data.split(',')[1])
+
+    bot.edit_message_text(
+        text=messages.get(res),
+        chat_id=query.message.chat_id,
+        message_id=query.message.message_id
+    )
+
+
+def button_show_note(bot, update):
+    pass
 
 
 def button_new_note(bot, update):

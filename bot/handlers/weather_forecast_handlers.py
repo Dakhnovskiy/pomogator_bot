@@ -2,7 +2,7 @@ import posixpath
 from ..config import settings
 from .parse_params_helpers import parse_params_weather_forecast
 from ..db_helpers import get_params_from_last_request, log_request
-from .integration_helpers import get_message_from_sevice_response_or_error
+from .integration_helpers import get_parsed_response_from_sevice_or_error
 
 
 def weather_forecast(bot, update):
@@ -27,7 +27,7 @@ def get_weather_forecast(params):
         settings.API_FUNCTION_WEATHER_FORECAST
     )
 
-    return get_message_from_sevice_response_or_error(
+    return get_parsed_response_from_sevice_or_error(
         weather_forecast_url,
         params,
         lambda x: x.json()['description']

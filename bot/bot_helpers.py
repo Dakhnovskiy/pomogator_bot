@@ -2,7 +2,8 @@ from telegram.ext import Updater, CommandHandler, CallbackQueryHandler
 from .config import settings
 
 from .handlers import weather_forecast, wiki_search, error
-from .handlers import notes, button_show_notes_list, button_new_note
+from .handlers import notes, button_show_notes_list, button_new_note, button_delete_note, \
+    button_show_note
 
 
 def get_configured_updater():
@@ -22,7 +23,13 @@ def get_configured_updater():
         CallbackQueryHandler(button_show_notes_list, pattern=r'^show_notes_list$')
     )
     updater.dispatcher.add_handler(
-        CallbackQueryHandler(button_show_notes_list, pattern=r'^new_note$')
+        CallbackQueryHandler(button_new_note, pattern=r'^new_note$')
+    )
+    updater.dispatcher.add_handler(
+        CallbackQueryHandler(button_delete_note, pattern=r'^delete_note,\d+$')
+    )
+    updater.dispatcher.add_handler(
+        CallbackQueryHandler(button_show_note, pattern=r'^show_note,\d+$')
     )
 
     updater.dispatcher.add_error_handler(error)

@@ -1,7 +1,7 @@
 from ..config import settings
 from ..db_helpers import log_request
 from .parse_response_helper import parse_wiki_response
-from .integration_helpers import get_message_from_sevice_response_or_error
+from .integration_helpers import get_parsed_response_from_sevice_or_error
 
 
 def wiki_search(bot, update):
@@ -17,7 +17,7 @@ def wiki_search(bot, update):
         'limit': 1
     })
 
-    message = get_message_from_sevice_response_or_error(
+    message = get_parsed_response_from_sevice_or_error(
         settings.API_WIKI_URL,
         params,
         lambda x: parse_wiki_response(x.text)
