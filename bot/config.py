@@ -8,6 +8,8 @@ class Config(object):
     API_WIKI_URL = 'https://ru.wikipedia.org/w/api.php'
     API_NOTES_URL = 'http://127.0.0.1:8000'
     API_NOTES_HANDLER = 'api/notes'
+    API_NOTES_USER = os.getenv('API_NOTES_USER')
+    API_NOTES_USER_PASS = os.getenv('API_NOTES_USER_PASS')
 
     BOT_TOKEN = os.environ.get('BOT_TOKEN')
     ERROR_MESSAGE = 'Не удалось выполнить запрос. Попробуйте позднее'
