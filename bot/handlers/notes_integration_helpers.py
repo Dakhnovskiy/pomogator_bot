@@ -4,6 +4,10 @@ import posixpath
 from ..config import settings
 
 
+def get_auth_tuple():
+    return settings.API_NOTES_USER, settings.API_NOTES_USER_PASS
+
+
 def get_notes_url(note_id=None):
     url = posixpath.join(
         settings.API_NOTES_URL,
@@ -22,7 +26,7 @@ def get_notes_by_chat_id(chat_id):
     response = requests.get(
         url=notes_url,
         params={'outer_user_id': chat_id},
-        auth=(settings.API_NOTES_USER, settings.API_NOTES_USER_PASS)
+        auth=get_auth_tuple()
     )
 
     notes = []
@@ -36,7 +40,7 @@ def delete_note(note_id):
 
     response = requests.delete(
         url=notes_url,
-        auth=(settings.API_NOTES_USER, settings.API_NOTES_USER_PASS)
+        auth=get_auth_tuple()
     )
 
     return response.status_code == 204
