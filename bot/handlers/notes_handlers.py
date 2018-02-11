@@ -1,7 +1,9 @@
 from ..db_helpers import log_request
-from .notes_integration_helpers import get_notes_by_chat_id, delete_note, get_note_text
+from .notes_integration_helpers import get_notes_by_chat_id, delete_note, get_note_text, create_note
+from .notes_states import NEW_NOTE_TEXT, NEW_NOTE_TITLE
 
 from telegram import InlineKeyboardButton, InlineKeyboardMarkup
+from telegram.ext import ConversationHandler
 
 
 def notes(bot, update):
@@ -77,4 +79,36 @@ def button_show_note(bot, update):
 
 
 def button_new_note(bot, update):
-    pass
+    query = update.callback_query
+
+    bot.edit_message_text(
+        text='Укажите название заметки',
+        chat_id=query.message.chat_id,
+        message_id=query.message.message_id
+    )
+
+    return NEW_NOTE_TITLE
+
+
+def new_note_title(bot, update, user_data):
+    user_data['NEW_NOTE_TITLE'] = update.message.text
+    update.message.reply_text('Укажите текст заметки')
+
+    return NEW_NOTE_TEXT
+
+
+def new_note_text(bot, update, user_data):
+    messages = {
+        True: 'Заметка создана',
+        False: 'Не удалось создать заметку, попробуйте позднее'
+    }
+
+    res = create_note(
+        update.message.chat_id,
+        user_data['NEW_NOTE_TITLE'],
+        update.message.text
+    )
+
+    update.message.reply_text(messages.get(res))
+    user_data.clear()
+    return ConversationHandler.END

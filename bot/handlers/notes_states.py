@@ -1,0 +1,1 @@
+NEW_NOTE_TITLE, NEW_NOTE_TEXT = range(2)

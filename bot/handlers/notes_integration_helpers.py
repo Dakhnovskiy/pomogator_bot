@@ -11,10 +11,9 @@ def get_auth_tuple():
 def get_notes_url(note_id=None):
     url = posixpath.join(
         settings.API_NOTES_URL,
-        settings.API_NOTES_HANDLER
+        settings.API_NOTES_HANDLER,
+        note_id or ''
     )
-    if note_id:
-        url = posixpath.join(url, note_id)
 
     return url
 
@@ -58,3 +57,21 @@ def get_note_text(note_id):
     if response.status_code == 200:
         message = response.json()['text']
     return message
+
+
+def create_note(chat_id, note_title, note_text):
+    notes_url = get_notes_url()
+
+    data = {
+        'title': note_title,
+        'text': note_text,
+        'outer_user_id': chat_id
+    }
+
+    response = requests.post(
+        url=notes_url,
+        data=data,
+        auth=get_auth_tuple()
+    )
+
+    return response.status_code == 201
