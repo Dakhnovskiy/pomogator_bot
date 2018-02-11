@@ -20,7 +20,7 @@ class Config(object):
 
 class ProductionConfig(Config):
     API_ENDPOINT_WEATHER_FORECAST = 'https://weather-forecast-service.herokuapp.com'
-    API_NOTES_URL = 'http://127.0.0.1:8000'
+    API_NOTES_URL = 'https://pomogator-notes-service.herokuapp.com'
 
     DATABASE = os.environ.get('DATABASE_URL')
 
