@@ -23,9 +23,18 @@ Personal assistant for telegramm
 
     Для поиска использует [MediaWiki action API](https://www.mediawiki.org/wiki/API:Main_page/ru)
 
+
+* **[/заметки|/notes]**
+            
+    Управление заметками(Создание, удаление, просмотр). 
+    
+    Возвращает InlineKeyboard интерфейс для управления заметками   
+
+    Для управления зяметками использует [этот](https://github.com/Dakhnovskiy/notes_service) сервис
+
+
 ## Задачи:
 
-* Заметки
 * Напоминалки
 * Сводка новостей(общие/по тематике)
 * Курсы валют
