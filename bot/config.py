@@ -10,6 +10,7 @@ class Config(object):
     API_NOTES_HANDLER = 'api/notes'
     API_NOTES_USER = os.getenv('API_NOTES_USER')
     API_NOTES_USER_PASS = os.getenv('API_NOTES_USER_PASS')
+    API_YANDEX_TRANSLATE_URL = 'https://translate.yandex.net/api/v1.5/tr.json/translate'
     API_YANDEX_KEY = os.getenv('API_YANDEX_KEY')
 
     BOT_TOKEN = os.environ.get('BOT_TOKEN')
