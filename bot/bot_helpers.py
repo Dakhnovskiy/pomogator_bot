@@ -12,15 +12,19 @@ from .handlers import translate, translate_text, button_language
 from .handlers.bot_states.translate_states import WAITING_INPUT
 
 
-def get_configured_updater():
-    updater = Updater(settings.BOT_TOKEN)
-
+def add_wiki_handlers(updater):
     updater.dispatcher.add_handler(
         CommandHandler(['погода', 'weather'], weather_forecast)
     )
+
+
+def add_weather_handlers(updater):
     updater.dispatcher.add_handler(
         CommandHandler(['вики', 'wiki'], wiki_search)
     )
+
+
+def add_notes_handlers(updater):
     updater.dispatcher.add_handler(
         CommandHandler(['заметки', 'notes'], notes)
     )
@@ -48,6 +52,8 @@ def get_configured_updater():
         )
     )
 
+
+def add_translate_handlers(updater):
     updater.dispatcher.add_handler(
         CommandHandler(['перевод', 'translate'], translate)
     )
@@ -63,6 +69,15 @@ def get_configured_updater():
             fallbacks=[]
         )
     )
+
+
+def get_configured_updater():
+    updater = Updater(settings.BOT_TOKEN)
+
+    add_wiki_handlers(updater)
+    add_weather_handlers(updater)
+    add_notes_handlers(updater)
+    add_translate_handlers(updater)
 
     updater.dispatcher.add_error_handler(error)
     return updater
