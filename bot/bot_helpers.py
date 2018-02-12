@@ -6,7 +6,10 @@ from .handlers import weather_forecast, wiki_search, error
 from .handlers import notes, button_show_notes_list, button_new_note, button_delete_note, \
     button_show_note, new_note_title, new_note_text
 
-from .handlers.notes_states import NEW_NOTE_TITLE, NEW_NOTE_TEXT
+from .handlers.bot_states.notes_states import NEW_NOTE_TITLE, NEW_NOTE_TEXT
+
+from .handlers import translate, translate_text, button_language
+from .handlers.bot_states.translate_states import WAITING_INPUT
 
 
 def get_configured_updater():
@@ -39,6 +42,22 @@ def get_configured_updater():
             states={
                 NEW_NOTE_TITLE: [MessageHandler(Filters.text, new_note_title, pass_user_data=True)],
                 NEW_NOTE_TEXT: [MessageHandler(Filters.text, new_note_text, pass_user_data=True)],
+            },
+
+            fallbacks=[]
+        )
+    )
+
+    updater.dispatcher.add_handler(
+        CommandHandler(['перевод', 'translate'], translate)
+    )
+
+    updater.dispatcher.add_handler(
+        ConversationHandler(
+            entry_points=[CallbackQueryHandler(button_language, pattern=r'^language:.+$', pass_user_data=True)],
+
+            states={
+                WAITING_INPUT: [MessageHandler(Filters.text, translate_text, pass_user_data=True)],
             },
 
             fallbacks=[]
