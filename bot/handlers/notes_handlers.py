@@ -1,6 +1,6 @@
 from ..db_helpers import log_request
 from .notes_integration_helpers import get_notes_by_chat_id, delete_note, get_note_text, create_note
-from .notes_states import NEW_NOTE_TEXT, NEW_NOTE_TITLE
+from .bot_states.notes_states import NEW_NOTE_TEXT, NEW_NOTE_TITLE
 
 from telegram import InlineKeyboardButton, InlineKeyboardMarkup
 from telegram.ext import ConversationHandler
