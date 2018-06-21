@@ -1,14 +1,25 @@
+from contextlib import contextmanager
+
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
 
 from ..config import settings
 
+__engine = create_engine(settings.DATABASE)
+__session_maker = sessionmaker(bind=__engine)
+
 
 def get_engine():
-    return create_engine(settings.DATABASE)
+    return __engine
 
 
+@contextmanager
 def get_session():
-    engine = get_engine()
-    session_maker = sessionmaker(bind=engine)
-    return session_maker()
+    session = __session_maker()
+    try:
+        yield session
+    except Exception:
+        session.rollback()
+        raise
+    finally:
+        session.close()
